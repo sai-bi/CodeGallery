@@ -59,7 +59,7 @@ stmt:
 		| VARIABLE '=' expr ';'          { $$ = opr('=', 2, id($1), $3); }
 		| FOR '(' stmt stmt stmt ')' stmt { $$ = opr(FOR, 4, $3, $4,
 $5, $7); }
-		| DO '{' stmt_list '}' WHILE '(' expr ')' ';' {$$ = opr(DO,2,$3,$7);}		    
+		| DO  stmt  WHILE '(' expr ')' ';' {$$ = opr(DO,2,$2,$5);}		    
 		| BREAK ';'						{$$ = opr(BREAK,0);}	
 		| CONTINUE ';'					{$$ = opr(CONTINUE,0);}
 		| WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); }

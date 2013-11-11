@@ -19,6 +19,7 @@
 %%
 sen:
 | sen LIST
+
 ;
 
 LIST:

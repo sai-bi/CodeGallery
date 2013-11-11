@@ -5,7 +5,7 @@
 	int condition = 1;
 %}
 
-SPA ([[:space:]]|[^a-zA-Z0-9])+
+SPA ([[:space:]]|[?.,;])+
 JAN Jan(uary)?
 FEB Feb(ruary)?
 MAR Mar(ch)?

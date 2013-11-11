@@ -361,7 +361,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  12
+#define YYNRULES  11
 /* YYNRULES -- Number of states.  */
 #define YYNSTATES  13
 
@@ -409,24 +409,24 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     8,    12,    15,    18,    21,    24,
-      27,    29,    31
+       0,     0,     3,     7,    11,    14,    17,    20,    23,    26,
+      28,    30
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-       8,     0,    -1,    -1,     8,     5,     4,    -1,     8,     4,
-       5,    -1,     4,     5,    -1,     5,     4,    -1,     8,     4,
-      -1,     8,     5,    -1,     8,     3,    -1,     5,    -1,     4,
-      -1,     3,    -1
+       8,     0,    -1,     8,     5,     4,    -1,     8,     4,     5,
+      -1,     4,     5,    -1,     5,     4,    -1,     8,     4,    -1,
+       8,     5,    -1,     8,     3,    -1,     5,    -1,     4,    -1,
+       3,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    15,    15,    16,    19,    22,    25,    28,    36,    44,
-      47,    52,    57
+       0,    17,    17,    20,    23,    26,    29,    37,    45,    48,
+      53,    58
 };
 #endif
 
@@ -453,14 +453,14 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,     7,     8,     8,     8,     8,     8,     8,     8,     8,
-       8,     8,     8
+       8,     8
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     3,     3,     2,     2,     2,     2,     2,
-       1,     1,     1
+       0,     2,     3,     3,     2,     2,     2,     2,     2,     1,
+       1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -468,8 +468,8 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,    12,    11,    10,     0,     5,     6,     1,     9,     7,
-       8,     4,     3
+       0,    11,    10,     9,     0,     4,     5,     1,     8,     6,
+       7,     3,     2
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -1354,28 +1354,37 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 3:
+        case 2:
 
 /* Line 1806 of yacc.c  */
-#line 16 "try.y"
+#line 17 "try.y"
     {
 	process((yyvsp[(3) - (3)].stringValue),(yyvsp[(2) - (3)].stringValue));
+}
+    break;
+
+  case 3:
+
+/* Line 1806 of yacc.c  */
+#line 20 "try.y"
+    {
+	process((yyvsp[(2) - (3)].stringValue),(yyvsp[(3) - (3)].stringValue));
 }
     break;
 
   case 4:
 
 /* Line 1806 of yacc.c  */
-#line 19 "try.y"
+#line 23 "try.y"
     {
-	process((yyvsp[(2) - (3)].stringValue),(yyvsp[(3) - (3)].stringValue));
+	process((yyvsp[(1) - (2)].stringValue),(yyvsp[(2) - (2)].stringValue));
 }
     break;
 
   case 5:
 
 /* Line 1806 of yacc.c  */
-#line 22 "try.y"
+#line 26 "try.y"
     {
 	process((yyvsp[(1) - (2)].stringValue),(yyvsp[(2) - (2)].stringValue));
 }
@@ -1384,16 +1393,21 @@ yyreduce:
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 25 "try.y"
+#line 29 "try.y"
     {
-	process((yyvsp[(1) - (2)].stringValue),(yyvsp[(2) - (2)].stringValue));
+	int i = 0;
+	for(i = 0;i < sizeof((yyvsp[(2) - (2)].stringValue));i++){	
+		if((yyvsp[(2) - (2)].stringValue)[i+1] == '\0')
+			break;
+		printf("%c",(yyvsp[(2) - (2)].stringValue)[i]);
+	}
 }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 28 "try.y"
+#line 37 "try.y"
     {
 	int i = 0;
 	for(i = 0;i < sizeof((yyvsp[(2) - (2)].stringValue));i++){	
@@ -1407,30 +1421,27 @@ yyreduce:
   case 8:
 
 /* Line 1806 of yacc.c  */
-#line 36 "try.y"
+#line 45 "try.y"
     {
-	int i = 0;
-	for(i = 0;i < sizeof((yyvsp[(2) - (2)].stringValue));i++){	
-		if((yyvsp[(2) - (2)].stringValue)[i+1] == '\0')
-			break;
-		printf("%c",(yyvsp[(2) - (2)].stringValue)[i]);
-	}
+	printf("%c",(yyvsp[(2) - (2)].stringValue)[0]);
 }
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
-#line 44 "try.y"
+#line 48 "try.y"
     {
-	printf("%c",(yyvsp[(2) - (2)].stringValue)[0]);
+	char* target;
+	strncpy(target, (yyvsp[(1) - (1)].stringValue),sizeof((yyvsp[(1) - (1)].stringValue))-1);
+	printf("%s",target);
 }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 47 "try.y"
+#line 53 "try.y"
     {
 	char* target;
 	strncpy(target, (yyvsp[(1) - (1)].stringValue),sizeof((yyvsp[(1) - (1)].stringValue))-1);
@@ -1441,18 +1452,7 @@ yyreduce:
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 52 "try.y"
-    {
-	char* target;
-	strncpy(target, (yyvsp[(1) - (1)].stringValue),sizeof((yyvsp[(1) - (1)].stringValue))-1);
-	printf("%s",target);
-}
-    break;
-
-  case 12:
-
-/* Line 1806 of yacc.c  */
-#line 57 "try.y"
+#line 58 "try.y"
     {
 	printf("%s",(yyvsp[(1) - (1)].stringValue));
 }
@@ -1692,7 +1692,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 61 "try.y"
+#line 62 "try.y"
 
 
 void main(){
@@ -1711,13 +1711,23 @@ void process(char* month, char* date){
 	int i = 0;
 	int numLength = 0;
 	char num[2];
+	char del;
 	for(i = 0;i < sizeof(date);i++){
 		if(date[i] - '0' >= 0 && date[i] -'0' <= 9){
 			num[numLength] = date[i];
 			numLength++;	
 		}	
-		if(numLength == 2)
+		if(numLength == 2){
+			int j = i;	
+			for(j = i;j < sizeof(date);j++){
+				if(date[j] == ',' || date[j] == '.'
+					|| date[j] == '?' || date[j] == ';'){
+					del = date[j];
+					break;
+				}
+			}		
 			break;
+		}
 	}
 	int day = atoi(num);	
 	int c[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
@@ -1727,13 +1737,13 @@ void process(char* month, char* date){
 		if(strstr(month,a[i]) != NULL){
 			if(day <= c[i]){
 				if(day == 1)
-					printf(" %s %dst ",b[i],day);
+					printf(" %s %dst%c",b[i],day,del);
 				else if(day == 2)
-					printf(" %s %dnd ",b[i],day);
+					printf(" %s %dnd%c",b[i],day,del);
 				else if(day == 3)	
-					printf(" %s %drd ",b[i],day);
+					printf(" %s %drd%c",b[i],day,del);
 				else	
-					printf(" %s %dth ",b[i],day);
+					printf(" %s %dth%c",b[i],day,del);
 			}
 			else{
 				printf("%s%s",month,date);

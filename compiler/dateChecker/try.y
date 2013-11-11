@@ -11,9 +11,10 @@
 %token <stringValue> MONTH
 %token <stringValue> DATE
 %token <stringValue> SPACE
+
 %%
 SEN:
-| SEN DATE MONTH{
+SEN DATE MONTH{
 	process($3,$2);
 }
 | SEN MONTH DATE{
@@ -76,13 +77,23 @@ void process(char* month, char* date){
 	int i = 0;
 	int numLength = 0;
 	char num[2];
+	char del;
 	for(i = 0;i < sizeof(date);i++){
 		if(date[i] - '0' >= 0 && date[i] -'0' <= 9){
 			num[numLength] = date[i];
 			numLength++;	
 		}	
-		if(numLength == 2)
+		if(numLength == 2){
+			int j = i;	
+			for(j = i;j < sizeof(date);j++){
+				if(date[j] == ',' || date[j] == '.'
+					|| date[j] == '?' || date[j] == ';'){
+					del = date[j];
+					break;
+				}
+			}		
 			break;
+		}
 	}
 	int day = atoi(num);	
 	int c[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
@@ -92,13 +103,13 @@ void process(char* month, char* date){
 		if(strstr(month,a[i]) != NULL){
 			if(day <= c[i]){
 				if(day == 1)
-					printf(" %s %dst ",b[i],day);
+					printf(" %s %dst%c",b[i],day,del);
 				else if(day == 2)
-					printf(" %s %dnd ",b[i],day);
+					printf(" %s %dnd%c",b[i],day,del);
 				else if(day == 3)	
-					printf(" %s %drd ",b[i],day);
+					printf(" %s %drd%c",b[i],day,del);
 				else	
-					printf(" %s %dth ",b[i],day);
+					printf(" %s %dth%c",b[i],day,del);
 			}
 			else{
 				printf("%s%s",month,date);

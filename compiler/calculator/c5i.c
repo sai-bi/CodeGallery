@@ -7,9 +7,12 @@ int loopSize = 0;
 int breakStack[MAXSIZE] = {0};
 int	continueStack[MAXSIZE] = {0};	 
 
+int temp;	
 int ex(nodeType *p) {
     int i;
-    if (!p) return 0;
+    if (!p) {
+		return 0;
+	}
 	if(loopSize != 0 && breakStack[loopSize] == 1){	
 		return 0;
 	}
@@ -24,21 +27,23 @@ int ex(nodeType *p) {
 	case FOR:	
 			ex(p->opr.op[0]);
 			loopSize = loopSize + 1;	
-		while (breakStack[loopSize] == 0 && ex(p->opr.op[1])){	
+			while (breakStack[loopSize] == 0 && ex(p->opr.op[1])){	
 			    continueStack[loopSize] = 0;	
 				ex(p->opr.op[3]);
 			    continueStack[loopSize] = 0;	
 				ex(p->opr.op[2]);
+			    continueStack[loopSize] = 0;	
 			}
 			continueStack[loopSize] = 0;	
 			breakStack[loopSize] = 0;
 			loopSize = loopSize - 1;
 			return 0;
 	case DO:
-				loopSize = loopSize + 1;	
+				loopSize = loopSize + 1;
 				do{
-					continueStack[loopSize] = 0;	
+					continueStack[loopSize] = 0;
 					ex(p->opr.op[0]);
+					continueStack[loopSize] = 0;
 				}while(breakStack[loopSize] == 0 && ex(p->opr.op[1]));
 			    continueStack[loopSize] = 0;	
 				breakStack[loopSize] = 0;
@@ -68,6 +73,7 @@ int ex(nodeType *p) {
 			while(breakStack[loopSize] == 0 && ex(p->opr.op[0])){ 
 					continueStack[loopSize] = 0;	
 					ex(p->opr.op[1]);
+					continueStack[loopSize] = 0;	
 			}
 					continueStack[loopSize] = 0;
 					breakStack[loopSize] = 0;
