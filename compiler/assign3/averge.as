@@ -16,47 +16,33 @@
 	push	6
 	pop	fp[5]
 	isp
-	push	7
+	push	0
 	pop	fp[6]
 	isp
-	push	8
+	push	0
 	pop	fp[7]
 	isp
-	push	9
-	pop	fp[8]
-	isp
-	push	10
-	pop	fp[9]
-	isp
-	push	0
-	pop	fp[10]
-	isp
-	push	0
-	pop	fp[11]
-	isp
 L000:
-	push	fp[11]
-	push	10
+	push	fp[7]
+	push	6
 	compLT
 	j0	L002
-	push	fp[10]
-	push	fp[11]
+	push	fp[7]
 	push 0
 	add
 	pop in
 	push fp[in]
+	push	fp[6]
 	add
-	pop	fp[10]
+	pop	fp[6]
 L001:
-	push	fp[11]
+	push	fp[7]
 	push	1
 	add
-	pop	fp[11]
+	pop	fp[7]
 	jmp	L000
 L002:
-	push	fp[10]
-	push	10
+	push	fp[6]
+	push	6
 	div
-	pop	fp[10]
-	push	fp[10]
 	puti

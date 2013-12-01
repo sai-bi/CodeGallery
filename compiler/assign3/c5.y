@@ -32,9 +32,10 @@ int sym[26];
 %token ACCESS
 %nonassoc IFX
 %nonassoc ELSE
-%token BREAK
+%token BREAK 
 %token CONTINUE
 %token ASSIGN
+%token READARRAY
 %left AND OR
 %left GE LE EQ NE '>' '<'
 %left '+' '-'
@@ -70,12 +71,14 @@ $5, $7); }
 		| IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
 		| IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
 		| '{' stmt_list '}'              { $$ = $2; }
-		| VARIABLE '[' expr ']' '=' '{' expr_list '}' ';'
+		| VARIABLE '[' ']' '=' '{' expr_list '}' ';'
 			{
-				$$ = opr(ARRAY,3,id($1),$3,$7);	
+				$$ = opr(ARRAY,2,id($1),$6);	
 			}
 		| VARIABLE '['	expr ']' '=' expr ';'
-            {$$ = opr(ASSIGN,3,id($1),$3,$6); }	
+            {$$ = opr(ASSIGN,3,id($1),$3,$6); }
+		| READ VARIABLE '[' expr ']' ';'
+			{$$ = opr(READARRAY,2,id($2),$4);}
 ;
 
 expr_list:

@@ -35,11 +35,8 @@ int ex(nodeType *p) {
 			switch(p->opr.oper) {
 				case FOR:
 					loopSize = loopSize + 1;
-					ex(p->opr.op[0]);
-						
-					//printf("L%03d:\n", lblx = lbl++);
-					printf("calll L%03d\n, 0", lblx = lbl++);
-					printf("L%03d\n:", lblx = lbl++);
+					ex(p->opr.op[0]);	
+					printf("L%03d:\n", lblx = lbl++);
 					lbl1 = lbl++;
 					continueStack[loopSize] = lbl1;
 					ex(p->opr.op[1]);
@@ -119,7 +116,7 @@ int ex(nodeType *p) {
 					temp = p->opr.op[0]->id.i;
 					temp = rec[temp];
 					if(temp == -1){
-						printf("\ttop\t%s%d%s\n", "fp[",offset,"]");
+						printf("\tpop\t%s%d%s\n", "fp[",offset,"]");
 						printf("\tisp\n");
 						rec[p->opr.op[0]->id.i] = offset;
 						offset = offset + 1;
@@ -154,11 +151,10 @@ int ex(nodeType *p) {
 				case ARRAY:
 					temp = p->opr.op[0]->id.i;
 					arraySize = 1;
-					//ex(p->opr.op[2]);
 					temp = rec[temp];
 					if(temp == -1){		
 						startOffset = offset;		
-						ex(p->opr.op[2]);
+						ex(p->opr.op[1]);
 						printf("\tpop\t%s%d%s\n", "fp[",arraySize-1+startOffset,"]");
 						printf("\tisp\n");
 						rec[p->opr.op[0]->id.i] = offset;
@@ -166,11 +162,10 @@ int ex(nodeType *p) {
 					}
 					else{
 						startOffset = temp;
-						ex(p->opr.op[2]);
+						ex(p->opr.op[1]);
 						printf("\tpop\t%s%d%s\n", "fp[",arraySize-1+startOffset,"]");
 						printf("\tisp\n");
 					}
-					//ex(p->opr.op[2]);
 					break;
 				case ',':
 					ex(p->opr.op[0]);	
@@ -188,13 +183,23 @@ int ex(nodeType *p) {
 					printf("\tpush fp[in]\n");
 					break;
 				case ASSIGN:
+					ex(p->opr.op[2]);
+					temp = p->opr.op[0]->id.i;
+					printf("\tpush %d\n", rec[temp]);
+					ex(p->opr.op[1]);
+					printf("\tadd\n");
+					printf("\tpop in\n");
+					printf("\tpop fp[in]\n");
+					break;
+				case READARRAY:
 					temp = p->opr.op[0]->id.i;
 					printf("\tpush %d\n", rec[temp]);
 					ex(p->opr.op[1]);
 					printf("\tadd\n");
 					printf("\tpop in");
-					ex(p->opr.op[2]);
-					printf("pop fp[in]");
+					printf("\tgeti\n");
+					printf("\tpop fp[in]\n");
+					break;
 				default:
 					ex(p->opr.op[0]);
 					ex(p->opr.op[1]);
