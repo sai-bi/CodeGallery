@@ -50,6 +50,7 @@
 %token <i>INT <i>REG <i>LABEL PUSH POP LT GT GE LE NE EQ <s>STRING
 %token CALL RET END J0 J1 JMP ADD SUB MUL DIV MOD NEG AND OR
 %token GETI GETS GETC PUTI PUTS PUTC PUTI_ PUTS_ PUTC_
+%token INCREMENTISP
 %nonassoc ':'
 
 %%
@@ -78,7 +79,7 @@ instruction:
 			{ in[pc] = PUSHRR; op[pc] = $2; opx[pc++] = $4; }
 	| POP REG	{ in[pc] = POPR; op[pc++] = $2; }
 	| POP REG '[' INT ']'
-			{ in[pc] = POPRI; op[pc] = $2; opx[pc++] = $4; }
+			{ in[pc] = POPRI; op[pc] = $2; opx[pc++] = $4; }	
 	| POP REG '[' REG ']'
 			{ in[pc] = POPRR; op[pc] = $2; opx[pc++] = $4; }
 	| CALL LABEL ',' INT
@@ -111,6 +112,7 @@ instruction:
 	| PUTI_		{ in[pc++] = PUTI_; }
 	| PUTS_		{ in[pc++] = PUTS_; }
 	| PUTC_		{ in[pc++] = PUTC_; }
+	| INCREMENTISP  { in[pc++] = INCREMENTISP;}
 	;
 
 %%
@@ -156,6 +158,9 @@ int main(int argc, char *argv[]) {
 	st[reg[op[i]] + opx[i++]] = st[--SP]; break;
       case POPRR:
 	st[reg[op[i]] + reg[opx[i++]]] = st[--SP]; break;
+      
+
+      
 
       case CALL:
 	// save old SP
@@ -180,6 +185,10 @@ int main(int argc, char *argv[]) {
 	FP = st[FP - 2];
 	// push return value
 	st[SP] = temp; ISP;
+	break;
+      case INCREMENTISP:
+	SP = SP + 1;
+	i++;
 	break;
 
       case END:

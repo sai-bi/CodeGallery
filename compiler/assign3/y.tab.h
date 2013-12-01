@@ -60,13 +60,14 @@ extern int yydebug;
      ELSE = 269,
      BREAK = 270,
      CONTINUE = 271,
-     OR = 272,
-     AND = 273,
-     NE = 274,
-     EQ = 275,
-     LE = 276,
-     GE = 277,
-     UMINUS = 278
+     ASSIGN = 272,
+     OR = 273,
+     AND = 274,
+     NE = 275,
+     EQ = 276,
+     LE = 277,
+     GE = 278,
+     UMINUS = 279
    };
 #endif
 /* Tokens.  */
@@ -84,13 +85,14 @@ extern int yydebug;
 #define ELSE 269
 #define BREAK 270
 #define CONTINUE 271
-#define OR 272
-#define AND 273
-#define NE 274
-#define EQ 275
-#define LE 276
-#define GE 277
-#define UMINUS 278
+#define ASSIGN 272
+#define OR 273
+#define AND 274
+#define NE 275
+#define EQ 276
+#define LE 277
+#define GE 278
+#define UMINUS 279
 
 
 
@@ -106,7 +108,7 @@ typedef union YYSTYPE
 
 
 /* Line 2053 of yacc.c  */
-#line 110 "y.tab.h"
+#line 112 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

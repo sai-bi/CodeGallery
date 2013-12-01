@@ -13,7 +13,8 @@ int rec[26] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 			   -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 			   -1,-1,-1,-1,-1,-1};
 int arraySize = 1;
-
+int startOffset = 1;
+int flag = 1;
 int ex(nodeType *p) {
 	int lblx, lbly, lbl1, lbl2;
 	if (!p) return 0;
@@ -35,7 +36,10 @@ int ex(nodeType *p) {
 				case FOR:
 					loopSize = loopSize + 1;
 					ex(p->opr.op[0]);
-					printf("L%03d:\n", lblx = lbl++);
+						
+					//printf("L%03d:\n", lblx = lbl++);
+					printf("calll L%03d\n, 0", lblx = lbl++);
+					printf("L%03d\n:", lblx = lbl++);
 					lbl1 = lbl++;
 					continueStack[loopSize] = lbl1;
 					ex(p->opr.op[1]);
@@ -115,6 +119,8 @@ int ex(nodeType *p) {
 					temp = p->opr.op[0]->id.i;
 					temp = rec[temp];
 					if(temp == -1){
+						printf("\ttop\t%s%d%s\n", "fp[",offset,"]");
+						printf("\tisp\n");
 						rec[p->opr.op[0]->id.i] = offset;
 						offset = offset + 1;
 					}
@@ -125,18 +131,15 @@ int ex(nodeType *p) {
 					break;
 				case PRINT:     
 					ex(p->opr.op[0]);
-					//printf("\tprint\n");
 					printf("\tputi\n");
-					//printf("\tpop sp\n");
 					break;
 				case '=':       
-					ex(p->opr.op[1]);
-					//printf("\tpop\t%c\n", p->opr.op[0]->id.i + 'a');
+					ex(p->opr.op[1]);	
 					temp = p->opr.op[0]->id.i;
 					temp = rec[temp];
 					if(temp == -1){
-						ex(p->opr.op[1]);
 						printf("\tpop\t%s%d%s\n", "fp[",offset,"]");
+						printf("\tisp\n");
 						rec[p->opr.op[0]->id.i] = offset;
 						offset = offset + 1;
 					}
@@ -150,25 +153,31 @@ int ex(nodeType *p) {
 					break;
 				case ARRAY:
 					temp = p->opr.op[0]->id.i;
-					//printf("\tpush sp\n");
 					arraySize = 1;
-					ex(p->opr.op[2]);
-					//printf("\tadd\n");
-					//printf("\tpop sp\n");
+					//ex(p->opr.op[2]);
 					temp = rec[temp];
-					if(temp == -1){				
+					if(temp == -1){		
+						startOffset = offset;		
+						ex(p->opr.op[2]);
+						printf("\tpop\t%s%d%s\n", "fp[",arraySize-1+startOffset,"]");
+						printf("\tisp\n");
 						rec[p->opr.op[0]->id.i] = offset;
 						offset = offset + arraySize;
 					}
 					else{
-						printf("Syntax error!\n");	
+						startOffset = temp;
+						ex(p->opr.op[2]);
+						printf("\tpop\t%s%d%s\n", "fp[",arraySize-1+startOffset,"]");
+						printf("\tisp\n");
 					}
 					//ex(p->opr.op[2]);
 					break;
 				case ',':
-					arraySize += 1;
-					ex(p->opr.op[0]);
+					ex(p->opr.op[0]);	
+					printf("\tpop\t%s%d%s\n", "fp[",arraySize-1+startOffset,"]");
+					printf("\tisp\n");
 					ex(p->opr.op[1]);
+					arraySize += 1;
 					break;
 				case ACCESS:
 					ex(p->opr.op[1]);
@@ -178,7 +187,14 @@ int ex(nodeType *p) {
 					printf("\tpop in\n");
 					printf("\tpush fp[in]\n");
 					break;
-						
+				case ASSIGN:
+					temp = p->opr.op[0]->id.i;
+					printf("\tpush %d\n", rec[temp]);
+					ex(p->opr.op[1]);
+					printf("\tadd\n");
+					printf("\tpop in");
+					ex(p->opr.op[2]);
+					printf("pop fp[in]");
 				default:
 					ex(p->opr.op[0]);
 					ex(p->opr.op[1]);

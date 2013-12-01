@@ -1,11 +1,5 @@
-for(i=1; i<=8; i=i+1;){ 
-  j = 1;  
-  do{
-	j = j + 1;
-	print j;
-  }while(j <= i);
-	
-  
-}
 
+for(i = 0;i < 10;i = i + 1;){
+	print i;
+}
 

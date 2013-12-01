@@ -1,17 +1,17 @@
 	push	1
-	push	1
 	pop	fp[0]
+	isp
 L000:
 	push	fp[0]
 	push	8
 	compLE
 	j0	L002
 	push	0
-	push	0
 	pop	fp[1]
-	push	1
+	isp
 	push	1
 	pop	fp[2]
+	isp
 L003:
 	push	fp[2]
 	push	fp[0]

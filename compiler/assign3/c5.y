@@ -34,6 +34,7 @@ int sym[26];
 %nonassoc ELSE
 %token BREAK
 %token CONTINUE
+%token ASSIGN
 %left AND OR
 %left GE LE EQ NE '>' '<'
 %left '+' '-'
@@ -41,7 +42,7 @@ int sym[26];
 %left ','
 %nonassoc UMINUS
 
-%type <nPtr> stmt expr stmt_list
+%type <nPtr> stmt expr stmt_list expr_list 
 
 %%
 
@@ -69,12 +70,18 @@ $5, $7); }
 		| IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
 		| IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
 		| '{' stmt_list '}'              { $$ = $2; }
-		| VARIABLE '[' expr ']' '=' '{' expr '}' ';'
+		| VARIABLE '[' expr ']' '=' '{' expr_list '}' ';'
 			{
 				$$ = opr(ARRAY,3,id($1),$3,$7);	
-			}			
+			}
+		| VARIABLE '['	expr ']' '=' expr ';'
+            {$$ = opr(ASSIGN,3,id($1),$3,$6); }	
 ;
 
+expr_list:
+		 expr {$$ = $1;}
+		| expr_list ',' expr  {$$ = opr(',',2,$1,$3);}
+;
 
 stmt_list:
 		 stmt                  { $$ = $1; }
@@ -100,7 +107,6 @@ expr:
 		| expr OR expr		{ $$ = opr(OR, 2, $1, $3); }
 		| '(' expr ')'          { $$ = $2; }
 		| VARIABLE '[' expr ']' {$$ = opr(ACCESS,2,id($1),$3);}
-		| expr ',' expr	   {$$ = opr(',',2,$1,$3);}
 ;
 
 %%

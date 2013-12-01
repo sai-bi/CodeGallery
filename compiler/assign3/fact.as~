@@ -1,27 +1,15 @@
-	push	1
-	push	1
+	push	0
 	pop	fp[0]
+	call	L001, 0
+	puti
+	end
 L000:
 	push	fp[0]
-	push	8
-	compLE
+	push	10
+	compLT
 	j0	L002
-	push	1
-	push	1
-	pop	fp[1]
-L003:
-	push	fp[1]
-	push	1
-	add
-	pop	fp[1]
-	push	fp[1]
-	puti
-	push	fp[1]
 	push	fp[0]
-	compLE
-	j0	L004
-	jmp	L003
-L004:
+	puti
 L001:
 	push	fp[0]
 	push	1
